@@ -59,18 +59,32 @@ class PhotoGridViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        
+        if !segue.destinationViewController.isKindOfClass(PhotoFilterViewController) {
+            return
+        }
+    
+        let photoFilterCtrl = segue.destinationViewController as! PhotoFilterViewController
+        
+        let cell = sender as! PhotoCollectionCell
+        
+        let indexPath = collectionView.indexPathForCell(cell)
+        
+        
+        if segue.identifier == "ToPhotoFilter"{
+            let asset = self.fetchResult![(indexPath?.item)!] as? PHAsset
+            photoFilterCtrl.asset = asset
+            photoFilterCtrl.assetCollection = self.collection;
+        }
+}
+
+    
+    @IBAction func backToGrid(segue:UIStoryboardSegue)  {
         
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }
+
 
 extension PhotoGridViewController: UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
      func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{

@@ -58,7 +58,7 @@ class GalleryListViewController: UIViewController {
         return true
     }
     @IBAction func backToGallery(segue:UIStoryboardSegue) {
-//        navigationController?.popViewControllerAnimated(true)
+
     }
 
     

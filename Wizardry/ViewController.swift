@@ -33,7 +33,6 @@ class ViewController: UIViewController {
         print("deinit ViewController")
     }
     @IBAction func backToHome(segue:UIStoryboardSegue)  {
-//        navigationController?.popToRootViewControllerAnimated(true)
     }
 
     override func prefersStatusBarHidden() -> Bool {
