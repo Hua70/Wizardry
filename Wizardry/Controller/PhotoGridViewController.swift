@@ -28,24 +28,9 @@ class PhotoGridViewController: UIViewController {
         return PHCachingImageManager()
     }()
 
-//     init() {
-//        super.init(nibName: nil, bundle: nil)
-//    }
-//  
-//    required init?(coder aDecoder: NSCoder) {
-//        print("init PhotoGridViewController")
-//        super.init(coder: aDecoder)
-//    }
-//    
-//    deinit {
-//        print("deinit PhotoGridViewController")
-//    }
-//
     override func viewDidLoad() {
         super.viewDidLoad()
         galleryTitleLabel.text = galleryTitle
-//        fetchResult = PHAsset.fetchAssetsInAssetCollection(collection!, options: nil)
-        // Do any additional setup after loading the view.
     }
     
     override func prefersStatusBarHidden() -> Bool {

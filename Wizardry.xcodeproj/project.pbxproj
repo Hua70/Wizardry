@@ -16,12 +16,15 @@
 		C62F5EF31BF612DD00FB94E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C62F5EF21BF612DD00FB94E2 /* Assets.xcassets */; };
 		C62F5F011BF612DD00FB94E2 /* WizardryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62F5F001BF612DD00FB94E2 /* WizardryTests.swift */; };
 		C62F5F0C1BF612DD00FB94E2 /* WizardryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62F5F0B1BF612DD00FB94E2 /* WizardryUITests.swift */; };
+		C6603AF91C4B982600F9490D /* YWHUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6603AF81C4B982600F9490D /* YWHUtil.swift */; };
 		C67FC1BC1C422F7100D506AF /* PhotoFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67FC1BB1C422F7100D506AF /* PhotoFilterViewController.swift */; };
 		C67FC1BE1C4244DA00D506AF /* PhotoFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67FC1BD1C4244DA00D506AF /* PhotoFilterCollectionViewCell.swift */; };
 		C67FC1C01C42454900D506AF /* FilteredImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67FC1BF1C42454900D506AF /* FilteredImageView.swift */; };
 		C67FC1C21C42456800D506AF /* ParameterAdjustmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67FC1C11C42456800D506AF /* ParameterAdjustmentView.swift */; };
 		C67FC1C41C42459400D506AF /* ScalarFilterParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67FC1C31C42459400D506AF /* ScalarFilterParameter.swift */; };
 		C67FC1C61C42461000D506AF /* LabeledSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67FC1C51C42461000D506AF /* LabeledSliderView.swift */; };
+		C6B84D701C4B858A006C464D /* TakePictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B84D6F1C4B858A006C464D /* TakePictureViewController.swift */; };
+		C6B84D721C4B8EF7006C464D /* FilterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B84D711C4B8EF7006C464D /* FilterData.swift */; };
 		C6C5A0941C2FE7E6004EC694 /* PhotoCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C5A0931C2FE7E6004EC694 /* PhotoCollectionCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,12 +61,15 @@
 		C62F5F071BF612DD00FB94E2 /* WizardryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WizardryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C62F5F0B1BF612DD00FB94E2 /* WizardryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WizardryUITests.swift; sourceTree = "<group>"; };
 		C62F5F0D1BF612DD00FB94E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6603AF81C4B982600F9490D /* YWHUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YWHUtil.swift; sourceTree = "<group>"; };
 		C67FC1BB1C422F7100D506AF /* PhotoFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoFilterViewController.swift; sourceTree = "<group>"; };
 		C67FC1BD1C4244DA00D506AF /* PhotoFilterCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoFilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		C67FC1BF1C42454900D506AF /* FilteredImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilteredImageView.swift; sourceTree = "<group>"; };
 		C67FC1C11C42456800D506AF /* ParameterAdjustmentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterAdjustmentView.swift; sourceTree = "<group>"; };
 		C67FC1C31C42459400D506AF /* ScalarFilterParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScalarFilterParameter.swift; sourceTree = "<group>"; };
 		C67FC1C51C42461000D506AF /* LabeledSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabeledSliderView.swift; sourceTree = "<group>"; };
+		C6B84D6F1C4B858A006C464D /* TakePictureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TakePictureViewController.swift; sourceTree = "<group>"; };
+		C6B84D711C4B8EF7006C464D /* FilterData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterData.swift; sourceTree = "<group>"; };
 		C6C5A0931C2FE7E6004EC694 /* PhotoCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionCell.swift; sourceTree = "<group>"; };
 		C6EE1F7E1C206181009DAB21 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -99,6 +105,7 @@
 				C611524F1C2E734D0000E7BC /* GalleryListViewController.swift */,
 				C61152531C2E83D80000E7BC /* PhotoGridViewController.swift */,
 				C67FC1BB1C422F7100D506AF /* PhotoFilterViewController.swift */,
+				C6B84D6F1C4B858A006C464D /* TakePictureViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -107,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				C67FC1C31C42459400D506AF /* ScalarFilterParameter.swift */,
+				C6B84D711C4B8EF7006C464D /* FilterData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -148,12 +156,13 @@
 		C62F5EEA1BF612DD00FB94E2 /* Wizardry */ = {
 			isa = PBXGroup;
 			children = (
+				C6603AF71C4B981100F9490D /* Util */,
 				C611524C1C2E73360000E7BC /* Controller */,
 				C611524D1C2E73360000E7BC /* Model */,
 				C611524E1C2E73360000E7BC /* View */,
 				C62F5EEB1BF612DD00FB94E2 /* AppDelegate.swift */,
-				C62F5EED1BF612DD00FB94E2 /* ViewController.swift */,
 				C62F5EEF1BF612DD00FB94E2 /* Main.storyboard */,
+				C62F5EED1BF612DD00FB94E2 /* ViewController.swift */,
 				C62F5EF21BF612DD00FB94E2 /* Assets.xcassets */,
 				C62F5EF71BF612DD00FB94E2 /* Info.plist */,
 			);
@@ -176,6 +185,14 @@
 				C62F5F0D1BF612DD00FB94E2 /* Info.plist */,
 			);
 			path = WizardryUITests;
+			sourceTree = "<group>";
+		};
+		C6603AF71C4B981100F9490D /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				C6603AF81C4B982600F9490D /* YWHUtil.swift */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,15 +329,18 @@
 				C6C5A0941C2FE7E6004EC694 /* PhotoCollectionCell.swift in Sources */,
 				C67FC1C61C42461000D506AF /* LabeledSliderView.swift in Sources */,
 				C67FC1BC1C422F7100D506AF /* PhotoFilterViewController.swift in Sources */,
+				C6B84D701C4B858A006C464D /* TakePictureViewController.swift in Sources */,
 				C67FC1C01C42454900D506AF /* FilteredImageView.swift in Sources */,
 				C67FC1C41C42459400D506AF /* ScalarFilterParameter.swift in Sources */,
 				C67FC1C21C42456800D506AF /* ParameterAdjustmentView.swift in Sources */,
 				C61152541C2E83D80000E7BC /* PhotoGridViewController.swift in Sources */,
 				C61152521C2E73580000E7BC /* GalleryCell.swift in Sources */,
+				C6603AF91C4B982600F9490D /* YWHUtil.swift in Sources */,
 				C62F5EEE1BF612DD00FB94E2 /* ViewController.swift in Sources */,
 				C67FC1BE1C4244DA00D506AF /* PhotoFilterCollectionViewCell.swift in Sources */,
 				C61152501C2E734D0000E7BC /* GalleryListViewController.swift in Sources */,
 				C62F5EEC1BF612DD00FB94E2 /* AppDelegate.swift in Sources */,
+				C6B84D721C4B8EF7006C464D /* FilterData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

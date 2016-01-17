@@ -16,6 +16,7 @@ class FilteredImageView: GLKView, ParameterAdjustmentDelegate {
 
     var ciContext: CIContext!
 
+    var outputImage:CIImage?
     var filter: CIFilter! {
         didSet {
             setNeedsDisplay()
@@ -46,8 +47,8 @@ class FilteredImageView: GLKView, ParameterAdjustmentDelegate {
             let inputCIImage = CIImage(image: inputImage)
             filter.setValue(inputCIImage, forKey: kCIInputImageKey)
             if let outputImage = filter.outputImage {
-                clearBackground()
-
+//                clearBackground()
+                self.outputImage = outputImage
                 let inputBounds = inputCIImage!.extent
                 let drawableBounds = CGRect(x: 0, y: 0, width: self.drawableWidth, height: self.drawableHeight)
                 let targetBounds = imageBoundsForContentMode(inputBounds, toRect: drawableBounds)

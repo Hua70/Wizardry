@@ -18,6 +18,7 @@ class GalleryListViewController: UIViewController {
 //    var selectedCollection : PHAssetCollection?
     @IBOutlet weak var tableView: UITableView!
     var allAlbums:PHFetchResult?
+    var resultArray :Array<PHAssetCollection> = Array()
     lazy var imageManager:PHCachingImageManager = {
         
        return PHCachingImageManager()
@@ -45,10 +46,30 @@ class GalleryListViewController: UIViewController {
     override func viewDidLoad() {
         //        let options = PHFetchOptions()
         //        options.sortDescriptors = NSSortDescriptor(key: "creationDate", ascending: true)
+//        let option:PHFetchOptions = PHFetchOptions()
+//        option.predicate = NSPredicate(block: { (collection, PHCollection) -> Bool in
+//           
+//            if assetsFetchResult.count > 0{
+//                return true
+//            }
+//            return false
+//        })
          self.allAlbums = PHAssetCollection.fetchAssetCollectionsWithType(PHAssetCollectionType.SmartAlbum, subtype: PHAssetCollectionSubtype.AlbumRegular, options: nil)
+        
         tableView.backgroundView = UIView(frame:  tableView.frame)
         tableView.backgroundView?.backgroundColor = UIColor.blackColor()
+ 
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+        tableView.separatorColor = UIColor.blackColor()
+        tableView.separatorInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         
+        allAlbums?.enumerateObjectsUsingBlock({ (collection, i, stop) -> Void in
+              let assetsFetchResult = PHAsset.fetchAssetsInAssetCollection(collection as! PHAssetCollection, options: nil)
+            if assetsFetchResult.count > 0{
+                self.resultArray.append(collection as! PHAssetCollection)
+            }
+        })
+//         let collection = self.allAlbums![indexPath!.row]
 //        let view = UIView(frame: CGRectMake(0, 0, ScreenWidth, 40))
 //        view.backgroundColor = UIColor.redColor()
 //        UIApplication.sharedApplication().keyWindow?.addSubview(view)
@@ -80,16 +101,22 @@ class GalleryListViewController: UIViewController {
         
         if segue.identifier == "ToPhotoGrid"{
 //            photoGridCtrl.fetchResult = fetchResult as! PHFetchResult
-            let collection = self.allAlbums![indexPath!.row]
+            let collection = resultArray[(indexPath?.row)!]
             if !collection.isKindOfClass(PHAssetCollection){
                 return
             }
             
-           let assetsFetchResult = PHAsset.fetchAssetsInAssetCollection(collection as! PHAssetCollection, options: nil)
-            photoGridCtrl.collection = collection as? PHAssetCollection
+           let assetsFetchResult = PHAsset.fetchAssetsInAssetCollection(collection , options: nil)
+            photoGridCtrl.collection = collection
             photoGridCtrl.fetchResult = assetsFetchResult
             photoGridCtrl.galleryTitle = cell.galleryTitle.text
         }
+    }
+    
+    
+    @IBAction func takePicture(sender: AnyObject) {
+        print("点击拍照")
+        
     }
 }
 
@@ -102,7 +129,7 @@ class GalleryListViewController: UIViewController {
 extension GalleryListViewController{
 
      func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.allAlbums!.count
+        return resultArray.count
     }
     
      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -112,9 +139,9 @@ extension GalleryListViewController{
         //        let player = players[indexPath.row] as GalleryCell
         //        cell.player = player
         
-        let collection = self.allAlbums![indexPath.row]
+        let collection = self.resultArray[indexPath.row]
         if collection.isKindOfClass(PHAssetCollection){
-            let assetCollection = collection as! PHAssetCollection
+            let assetCollection = collection 
             let fetchResult = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: nil)
             if fetchResult.count > 0{
                  let asset = fetchResult[0]
