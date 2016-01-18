@@ -12,6 +12,9 @@ import AssetsLibrary
 
 class TakePictureViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate , AVCaptureMetadataOutputObjectsDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     var captureSession: AVCaptureSession!
+    @IBOutlet weak var flashAutoBtn: UIButton!
+    @IBOutlet weak var flashOnBtn: UIButton!
+    @IBOutlet weak var flashOffBtn: UIButton!
     @IBOutlet weak var containView: UIView!
     var previewLayer: AVCaptureVideoPreviewLayer!
     var filter: CIFilter!
@@ -67,6 +70,7 @@ class TakePictureViewController: UIViewController, AVCaptureVideoDataOutputSampl
         
         containView.layer.insertSublayer(previewLayer, atIndex: 0)
         
+     
         if TARGET_IPHONE_SIMULATOR == 1 {
             UIAlertView(title: "提示", message: "不支持模拟器", delegate: nil, cancelButtonTitle: "确定").show()
         } else {
@@ -129,6 +133,7 @@ class TakePictureViewController: UIViewController, AVCaptureVideoDataOutputSampl
         dataOutput.setSampleBufferDelegate(self, queue: queue)
         
         // 为了检测人脸
+        /*
         let metadataOutput = AVCaptureMetadataOutput()
         metadataOutput.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
         
@@ -136,13 +141,37 @@ class TakePictureViewController: UIViewController, AVCaptureVideoDataOutputSampl
             captureSession.addOutput(metadataOutput)
             print(metadataOutput.availableMetadataObjectTypes)
             metadataOutput.metadataObjectTypes = [AVMetadataObjectTypeFace]
-        }
+        }*/
         
         captureSession.commitConfiguration()
     }
     
     
+    /**
+     给输入设备添加通知
+     */
+    func addNotificationToCaptureDevice(captureDevice:AVCaptureDevice){
+          //注意添加区域改变捕获通知必须首先设置设备允许捕获
+        changeDeviceProperty { (captureDevice) -> () in
+            captureDevice.subjectAreaChangeMonitoringEnabled = true
+        }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "areaChange:", name: AVCaptureDeviceSubjectAreaDidChangeNotification, object: captureDevice)
+    }
+    
+    func removeNotificationFromCaptureDevice(captureDevice:AVCaptureDevice){
+         NSNotificationCenter.defaultCenter().removeObserver(self, name: AVCaptureDeviceSubjectAreaDidChangeNotification, object: captureDevice)
+    }
 
+   
+    
+    //MARK:- Notification Action
+    func areaChange(sender:AnyObject){
+        print("捕获区域改变")
+    }
+    
+    
+    
+    //MARK:Camera Setting
      /**
      闪光灯模式
      */
@@ -150,7 +179,13 @@ class TakePictureViewController: UIViewController, AVCaptureVideoDataOutputSampl
     func setFlashMode(flashModel:AVCaptureFlashMode){
         changeDeviceProperty { (captureDevice) -> () in
             if captureDevice.isFlashModeSupported(flashModel){
+                do{
+                    try captureDevice.lockForConfiguration()
+                }catch{
+                    return
+                }
                 captureDevice.flashMode = flashModel
+                captureDevice.unlockForConfiguration()
             }
         }
     }
@@ -210,7 +245,7 @@ class TakePictureViewController: UIViewController, AVCaptureVideoDataOutputSampl
         focusCursor.center = point
         focusCursor.transform = CGAffineTransformMakeScale(1.5, 1.5)
         focusCursor.alpha = 1.0
-        UIView.animateWithDuration(1.0, animations: { () -> Void in
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.focusCursor.transform = CGAffineTransformIdentity
             }) { (finished) -> Void in
                 self.focusCursor.alpha = 0;
@@ -224,6 +259,23 @@ class TakePictureViewController: UIViewController, AVCaptureVideoDataOutputSampl
         let tapGesture = UITapGestureRecognizer(target: self, action: "tapScreen:")
         containView.addGestureRecognizer(tapGesture)
 
+    }
+    
+    /**
+     *  取得指定位置的摄像头
+     *
+     *  @param position 摄像头位置
+     *
+     *  @return 摄像头设备
+     */
+    func getCameraDeviceWithPosition(position:AVCaptureDevicePosition) -> AVCaptureDevice?{
+        let cameras = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+        for camera in cameras{
+            if camera.position == position{
+                return camera as? AVCaptureDevice
+            }
+        }
+        return nil
     }
     
     func tapScreen(tapGesture:UITapGestureRecognizer){
@@ -247,7 +299,7 @@ class TakePictureViewController: UIViewController, AVCaptureVideoDataOutputSampl
     }
     
     func makeFaceWithCIImage(inputImage: CIImage, faceObject: AVMetadataFaceObject) -> CIImage {
-        var filter = CIFilter(name: "CIPixellate")
+        let filter = CIFilter(name: "CIPixellate")
         filter!.setValue(inputImage, forKey: kCIInputImageKey)
         // 1.
         filter!.setValue(max(inputImage.extent.size.width, inputImage.extent.size.height) / 60, forKey: kCIInputScaleKey)
@@ -416,8 +468,64 @@ class TakePictureViewController: UIViewController, AVCaptureVideoDataOutputSampl
     }
     
     @IBAction func flipCamera(sender: AnyObject) {
+        
+        let currentDevice = self.deviceInput?.device
+        let currentPosition = currentDevice!.position
+        removeNotificationFromCaptureDevice(currentDevice!)
+        var toChangeDevice:AVCaptureDevice?
+        var toChangePosition = AVCaptureDevicePosition.Front
+        if currentPosition == AVCaptureDevicePosition.Unspecified||currentPosition == AVCaptureDevicePosition.Front{
+            toChangePosition = AVCaptureDevicePosition.Back
+        }
+        toChangeDevice = getCameraDeviceWithPosition(toChangePosition)
+        addNotificationToCaptureDevice(toChangeDevice!)
+        
+        let toChangeDeviceInput = try! AVCaptureDeviceInput(device: toChangeDevice)
+        
+        self.captureSession.beginConfiguration()
+        self.captureSession.removeInput(self.deviceInput)
+        if self.captureSession.canAddInput(toChangeDeviceInput){
+            self.captureSession.addInput(toChangeDeviceInput)
+            self.deviceInput = toChangeDeviceInput
+        }
+        self.captureSession.commitConfiguration()
+        
+        
+        
+    }
+    @IBAction func turnFlashAuto(sender: AnyObject) {
+        setFlashMode(AVCaptureFlashMode.Auto)
+        flashOffBtn.selected = false
+        flashOnBtn.selected = false
+        flashAutoBtn.selected = true
+    }
+    @IBAction func turnFlashOn(sender: AnyObject) {
+         setFlashMode(AVCaptureFlashMode.On)
+        flashOffBtn.selected = false
+        flashOnBtn.selected = true
+        flashAutoBtn.selected = false
+    }
+    @IBAction func turnFlashOff(sender: AnyObject) {
+         setFlashMode(AVCaptureFlashMode.Off)
+        flashOffBtn.selected = true
+        flashOnBtn.selected = false
+        flashAutoBtn.selected = false
     }
     @IBAction func touchSwitch(sender: AnyObject) {
+        let device = deviceInput?.device
+        var torchMode = AVCaptureTorchMode.On
+        if device?.torchMode == AVCaptureTorchMode.Off{
+            torchMode = AVCaptureTorchMode.On
+        }else{
+            torchMode = AVCaptureTorchMode.Off
+        }
+        do{
+            try device?.lockForConfiguration()
+            device?.torchMode = torchMode
+            device?.unlockForConfiguration()
+        }catch{
+            
+        }
     }
 }
 
